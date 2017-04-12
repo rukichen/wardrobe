@@ -1,5 +1,4 @@
 #include "MainWindow.h"
-
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QIntValidator>

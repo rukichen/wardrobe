@@ -3,6 +3,7 @@
 #include <QtWidgets/QTableView>
 #include "ui_layout.h"
 
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

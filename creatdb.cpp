@@ -14,6 +14,7 @@
 #include <QSpacerItem>
 #include <QVBoxLayout>
 
+
 void CreatDB::DatabaseConnect()
 {
     const QString DRIVER("QSQLITE");
