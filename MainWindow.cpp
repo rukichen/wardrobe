@@ -17,6 +17,7 @@
 #include <QSqlQuery>
 
 #include "creatdb.h"
+#include "ui_layout.h"
 
 MainWindow::MainWindow(QWidget * parent)
     : QMainWindow(parent)

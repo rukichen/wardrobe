@@ -11,10 +11,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = QtSqlExample
 TEMPLATE = app
 
+FORMS = layout.ui
+
 SOURCES += main.cpp \
     MainWindow.cpp \
     creatdb.cpp
 
 HEADERS += \
     MainWindow.h \
-    creatdb.h
+    creatdb.h\
+
