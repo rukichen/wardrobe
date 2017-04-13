@@ -1,30 +1,23 @@
-#pragma once
+#ifndef __MAINWINDOW_H
+#define __MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QApplication>
 
-class QLabel;
-class QLineEdit;
-class QPushButton;
+namespace Ui {
+class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget * parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 private:
-    void BuildWindow();
+    Ui::MainWindow *ui;
 
-
-private slots:
-    void OnInput();
-    void OnSearchClicked();
-
-private:
-    QLineEdit * mInputText;
-    QPushButton * mButtonSearch;
-    QLabel * mOutputText;
 };
 
+#endif // MAINWINDOW_H

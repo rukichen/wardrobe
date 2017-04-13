@@ -4,15 +4,15 @@
 #
 #-------------------------------------------------
 
-
 QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = QtSqlExample
+TARGET = MainWindow
 TEMPLATE = app
 
-FORMS = layout.ui
+FORMS = \
+    mainwindow
 
 SOURCES += main.cpp \
     MainWindow.cpp \
@@ -20,5 +20,4 @@ SOURCES += main.cpp \
 
 HEADERS += \
     MainWindow.h \
-    creatdb.h\
-
+    creatdb.h

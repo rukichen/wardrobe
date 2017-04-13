@@ -1,20 +1,16 @@
 #include "MainWindow.h"
-#include <QApplication>
-#include <QtWidgets/QTableView>
-#include "ui_layout.h"
 
+
+#include <QApplication>
+#include <QWidget>
+#include <QMainWindow>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //QTableView tableView;
-    QWidget *widget = new QWidget;
-    Ui::MainWindow w;
-    w.setupUi(widget);
+    MainWindow w ;
 
-    //tableView.setModel( &w);
-    widget->show();
-
+    w.show();
 
     return a.exec();
 }

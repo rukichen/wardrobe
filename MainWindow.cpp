@@ -1,4 +1,7 @@
 #include "MainWindow.h"
+#include "creatdb.h"
+#include "ui_mainwindow.h"
+
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QIntValidator>
@@ -15,23 +18,14 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-#include "creatdb.h"
-#include "ui_layout.h"
 
-MainWindow::MainWindow(QWidget * parent)
-    : QMainWindow(parent)
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
-    // window title
-    setWindowTitle("Qt SQL and SQLite");
+    ui->setupUi(this);
 
-    // -- set fixed size --
-    const int WIN_W = 320;
-    const int WIN_H = 320;
-    setMinimumSize(WIN_W, WIN_H);
-    setMaximumSize(WIN_W, WIN_H);
-
-    // create GUI
-    BuildWindow();
 
     // -- DATABASE INIT --
     CreatDB * db = new CreatDB;
@@ -39,91 +33,25 @@ MainWindow::MainWindow(QWidget * parent)
     db->DatabaseInit();
     db->DatabasePopulate();
 
-    QAction *quit = new QAction("&Quit", this);
-    QMenu *file;
-    file = menuBar()->addMenu("&File");
-    file->addAction(quit);
-    connect(quit, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 
-// ===== PRIVATE =====
-void MainWindow::BuildWindow()
+MainWindow::~MainWindow()
 {
-    QWidget * content = new QWidget;
-    setCentralWidget(content);
-
-    // main layout
-    QVBoxLayout * layoutMain = new QVBoxLayout;
-    content->setLayout(layoutMain);
-
-    // -- VERT SPACER --
-    layoutMain->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Expanding));
-
-    // -- INPUT ROW --
-    QHBoxLayout * layoutRow = new QHBoxLayout;
-    layoutMain->addLayout(layoutRow);
-
-    // input field
-    mInputText = new QLineEdit;
-    mInputText->setValidator(new QIntValidator(mInputText));
-
-    connect(mInputText, &QLineEdit::textChanged, this, &MainWindow::OnInput);
-
-    layoutRow->addWidget(mInputText);
-
-    // search button
-    mButtonSearch = new QPushButton("SEARCH");
-    mButtonSearch->setEnabled(false);
-
-    connect(mButtonSearch, &QPushButton::clicked, this, &MainWindow::OnSearchClicked);
-
-    layoutRow->addWidget(mButtonSearch);
-
-    // -- OUTPUT ROW --
-    mOutputText = new QLabel("...");
-    mOutputText->setAlignment(Qt::AlignCenter);
-    layoutMain->addWidget(mOutputText);
-
-    // -- VERT SPACER --
-    layoutMain->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Expanding));
+    delete ui;
 }
 
-
-
-//void MainWindow::createActions()
+//void MainWindow::OnSearchClicked()
 //{
-//    newAction = new QAction(tr("&New"), this);
-//    connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
-//}
-//void MainWindow::createMenus()
-//{
+//    QSqlQuery query;
+//    query.prepare("SELECT name FROM people WHERE id = ?");
+//    query.addBindValue(mInputText->text().toInt());
 
-//    fileMenu = menuBar()->addMenu(tr("&File"));
-//    fileMenu->addAction(newAction);
+//    if(!query.exec())
+//        qWarning() << "MainWindow::OnSearchClicked - ERROR: " << query.lastError().text();
+
+//    if(query.first())
+//        mOutputText->setText(query.value(0).toString());
+//    else
+//        mOutputText->setText("person not found");
 //}
 
-
-
-// ===== PRIVATE SLOTS =====
-void MainWindow::OnInput()
-{
-    if(mInputText->text().length() > 0)
-        mButtonSearch->setEnabled(true);
-    else
-        mButtonSearch->setEnabled(false);
-}
-
-void MainWindow::OnSearchClicked()
-{
-    QSqlQuery query;
-    query.prepare("SELECT name FROM people WHERE id = ?");
-    query.addBindValue(mInputText->text().toInt());
-
-    if(!query.exec())
-        qWarning() << "MainWindow::OnSearchClicked - ERROR: " << query.lastError().text();
-
-    if(query.first())
-        mOutputText->setText(query.value(0).toString());
-    else
-        mOutputText->setText("person not found");
-}
