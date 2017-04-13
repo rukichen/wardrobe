@@ -3,21 +3,16 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
-#include <QHBoxLayout>
 #include <QIntValidator>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QSpacerItem>
-#include <QVBoxLayout>
-#include <QMenu>
-#include <QMenuBar>
 
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
-#include <QSqlQuery>
 
+#include <QModelIndex>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -26,13 +21,42 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    if (!QSqlDatabase::drivers().contains("QSQLITE"))
+            QMessageBox::critical(this, "Unable to load database",
+                                  "This demo needs the SQLITE driver");
 
     // -- DATABASE INIT --
-    CreatDB * db = new CreatDB;
-    db->DatabaseConnect();
-    db->DatabaseInit();
-    db->DatabasePopulate();
+    QSqlError err = DatabaseInit();
+    if (err.type() != QSqlError::NoError) {
+        showError(err);
+        return;
+    }
 
+    QSqlTableModel *model = new QSqlTableModel(ui->tableView);
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setTable("kimono");
+
+    if (!model->select()) {
+        showError(model->lastError());
+        return;
+    }
+
+    ui->tableView->setModel(model);
+    ui->tableView->setColumnHidden(model->fieldIndex("id"),true);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+
+
+    ui->tableView->setCurrentIndex(model->index(0, 0));
+}
+void MainWindow::createTableView(){
+    QTableView *view = new QTableView;
+
+}
+
+void MainWindow::showError(const QSqlError &err)
+{
+    QMessageBox::critical(this, "Unable to initialize Database",
+                "Error initializing database: " + err.text());
 }
 
 MainWindow::~MainWindow()

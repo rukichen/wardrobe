@@ -15,8 +15,7 @@ FORMS = \
     mainwindow
 
 SOURCES += main.cpp \
-    MainWindow.cpp \
-    creatdb.cpp
+    MainWindow.cpp
 
 HEADERS += \
     MainWindow.h \
