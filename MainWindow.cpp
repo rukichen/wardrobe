@@ -31,10 +31,19 @@ MainWindow::MainWindow(QWidget *parent) :
         showError(err);
         return;
     }
-
-    QSqlTableModel *model = new QSqlTableModel(ui->tableView);
+//set database model
+    model = new QSqlRelationalTableModel(ui->tableView);
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->setTable("kimono");
+
+//remember the indexes of the collums
+    typeIdx = model->fieldIndex("type");
+
+//set relations
+    model->setRelation(typeIdx, QSqlRelation("type","id", "name"));
+
+    model->setHeaderData(model->fieldIndex("name"), Qt::Horizontal, tr("name"));
+    model->setHeaderData(typeIdx, Qt::Horizontal, tr("type"));
 
     if (!model->select()) {
         showError(model->lastError());
@@ -47,7 +56,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     ui->tableView->setCurrentIndex(model->index(0, 0));
+
 }
+
 void MainWindow::createTableView(){
     QTableView *view = new QTableView;
 
@@ -64,6 +75,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::addItemWindow(){
+    AddItem *winAdd = new AddItem(this);
+    connect(ui->AddItem, SIGNAL(clicked()),this, SLOT(addItemWindow()));
+    AddItem.setWindowTitle(trUtf8("Add Item"));
+    winAdd->exec();
+}
+
+void MainWindow::slotUpdate(){
+    model->select();
+}
 //void MainWindow::OnSearchClicked()
 //{
 //    QSqlQuery query;

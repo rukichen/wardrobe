@@ -12,11 +12,14 @@ TARGET = MainWindow
 TEMPLATE = app
 
 FORMS = \
-    mainwindow
+    mainwindow \
+    AddItem.ui
 
 SOURCES += main.cpp \
-    MainWindow.cpp
+    MainWindow.cpp \
+    AddItem.cpp
 
 HEADERS += \
     MainWindow.h \
-    creatdb.h
+    creatdb.h \
+    AddItem.h

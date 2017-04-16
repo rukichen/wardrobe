@@ -10,13 +10,20 @@
 #include "creatdb.h"
 #include "MainWindow.h"
 
-QVariant addGenre(QSqlQuery &query, const QString &name)
+QVariant addType(QSqlQuery &query, const QString &name)
 {
     query.addBindValue(name);
     query.exec();
     return query.lastInsertId();
 }
 
+void addBook(QSqlQuery &q, const QString &name, const QVariant &typeId)
+{
+    q.addBindValue(name);
+    q.addBindValue(typeId);
+
+    q.exec();
+}
 
 QSqlError DatabaseInit()
 {
@@ -35,14 +42,14 @@ QSqlError DatabaseInit()
         return query.lastError();
     if(!query.exec(QLatin1String("CREATE TABLE obi (id INTEGER PRIMARY KEY, name varchar, type integer )")))
         return query.lastError();
-    if(!query.exec(QLatin1String("create table type( id interger primary key, name varchar)")));
+    if(!query.exec(QLatin1String("create table type( id INTEGER PRIMARY KEY, name varchar)")));
         return query.lastError();
 
         if (!query.prepare(QLatin1String("insert into types(name) values(?)")))
             return query.lastError();
-        QVariant komon = addGenre(query, QLatin1String("Komon"));
-        QVariant iromuji = addGenre(query, QLatin1String("Iromuji"));
-        QVariant yukata = addGenre(query, QLatin1String("Yukata"));
+        QVariant komon = addType(query, QLatin1String("Komon"));
+        QVariant iromuji = addType(query, QLatin1String("Iromuji"));
+        QVariant yukata = addType(query, QLatin1String("Yukata"));
 
         return QSqlError();
 }
