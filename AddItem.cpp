@@ -1,5 +1,6 @@
 #include "AddItem.h"
-#include "ui_additem.h"
+#include "ui_AddItem.h"
+
 
 AddItem::AddItem(QWidget *parent) :
     QDialog(parent),
@@ -7,42 +8,25 @@ AddItem::AddItem(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setupModel();
-
-    if(row == -1){
-        model->insertRow(model->rowCount(QModelIndex()));
-        mapper->toLast();
-    }else{
-        mapper->setCurrentIndex(model->index(row,0));;
-    }
-
-    createUI();
-
+   // connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(addedItem()));
     connect(ui->cancleButton,SIGNAL(clicked()), this, SLOT(close()));
 
-}
+ }
 
 AddItem::~AddItem()
 {
     delete ui;
 }
-
-void AddItem::setupModel(){
-    model = new QSqlRelationalTableModel(this);
-    model->setTable(DEVICE);
-    model->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
-    model->select();
-
+QString AddItem::getName(){
+    return ui->name->text();
 
 }
 
-void AddItem::accept(){
-    QSqlQuery query;
-    QString str = QString().arg(ui->HostnameLineEdit->text(),
-                 ui->name->text(),
-                 model->data(model->index(mapper->currentIndex(),0), Qt::DisplayRole).toString());
-
-    query.prepare(str);
-    query.exec();
+QVariant AddItem::getType(){
+    return ui->comboBox->currentText();
 }
 
+void AddItem::addedItem()
+{
+
+}

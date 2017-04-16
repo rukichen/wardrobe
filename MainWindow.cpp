@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "creatdb.h"
 #include "ui_mainwindow.h"
+#include "AddItem.h"
 
 #include <QDebug>
 #include <QIntValidator>
@@ -11,7 +12,6 @@
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
-
 #include <QModelIndex>
 
 
@@ -25,12 +25,13 @@ MainWindow::MainWindow(QWidget *parent) :
             QMessageBox::critical(this, "Unable to load database",
                                   "This demo needs the SQLITE driver");
 
-    // -- DATABASE INIT --
+// -- DATABASE INIT --
     QSqlError err = DatabaseInit();
     if (err.type() != QSqlError::NoError) {
         showError(err);
         return;
     }
+
 //set database model
     model = new QSqlRelationalTableModel(ui->tableView);
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -45,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     model->setHeaderData(model->fieldIndex("name"), Qt::Horizontal, tr("name"));
     model->setHeaderData(typeIdx, Qt::Horizontal, tr("type"));
 
-    if (!model->select()) {
+    if (!model->select())
+    {
         showError(model->lastError());
         return;
     }
@@ -53,13 +55,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setModel(model);
     ui->tableView->setColumnHidden(model->fieldIndex("id"),true);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
-
-
     ui->tableView->setCurrentIndex(model->index(0, 0));
+
+//button
+   connect(ui->AddItem, SIGNAL(clicked()),this, SLOT(addItemWindow()));
 
 }
 
-void MainWindow::createTableView(){
+void MainWindow::createTableView()
+{
     QTableView *view = new QTableView;
 
 }
@@ -75,28 +79,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::addItemWindow(){
-    AddItem *winAdd = new AddItem(this);
-    connect(ui->AddItem, SIGNAL(clicked()),this, SLOT(addItemWindow()));
-    AddItem.setWindowTitle(trUtf8("Add Item"));
+    AddItem *winAdd = new AddItem();
+    winAdd->show();
     winAdd->exec();
 }
-
-void MainWindow::slotUpdate(){
-    model->select();
-}
-//void MainWindow::OnSearchClicked()
-//{
-//    QSqlQuery query;
-//    query.prepare("SELECT name FROM people WHERE id = ?");
-//    query.addBindValue(mInputText->text().toInt());
-
-//    if(!query.exec())
-//        qWarning() << "MainWindow::OnSearchClicked - ERROR: " << query.lastError().text();
-
-//    if(query.first())
-//        mOutputText->setText(query.value(0).toString());
-//    else
-//        mOutputText->setText("person not found");
-//}
 

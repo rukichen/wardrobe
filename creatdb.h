@@ -6,8 +6,6 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QtSql>
-
-#include "creatdb.h"
 #include "MainWindow.h"
 
 QVariant addType(QSqlQuery &query, const QString &name)
@@ -17,7 +15,7 @@ QVariant addType(QSqlQuery &query, const QString &name)
     return query.lastInsertId();
 }
 
-void addBook(QSqlQuery &q, const QString &name, const QVariant &typeId)
+void addKimono(QSqlQuery &q, const QString &name, const QVariant &typeId)
 {
     q.addBindValue(name);
     q.addBindValue(typeId);
@@ -47,6 +45,8 @@ QSqlError DatabaseInit()
 
         if (!query.prepare(QLatin1String("insert into types(name) values(?)")))
             return query.lastError();
+
+
         QVariant komon = addType(query, QLatin1String("Komon"));
         QVariant iromuji = addType(query, QLatin1String("Iromuji"));
         QVariant yukata = addType(query, QLatin1String("Yukata"));
