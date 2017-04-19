@@ -21,6 +21,8 @@ SOURCES += main.cpp \
 
 HEADERS += \
     MainWindow.h \
-    creatdb.h \
     AddItem.h \
-    dataaccess.h
+    dataaccess.h \
+    main.h
+
+INCLUDEPATH += jsoncpp-master/include/
