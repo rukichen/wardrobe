@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QtSql>
 #include "MainWindow.h"
+#include "AddItem.h"
 
 QVariant addType(QSqlQuery &query, const QString &name)
 {

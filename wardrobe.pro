@@ -22,4 +22,5 @@ SOURCES += main.cpp \
 HEADERS += \
     MainWindow.h \
     creatdb.h \
-    AddItem.h
+    AddItem.h \
+    dataaccess.h
