@@ -6,7 +6,7 @@
 
 QT       += core gui sql
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 TARGET = MainWindow
 TEMPLATE = app
@@ -22,7 +22,7 @@ SOURCES += main.cpp \
 HEADERS += \
     MainWindow.h \
     AddItem.h \
-    dataaccess.h \
-    main.h
+    dataaccess.h
 
-INCLUDEPATH += jsoncpp-master/include/
+
+

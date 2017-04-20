@@ -2,9 +2,8 @@
 #define __MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtSql>
-#include <QtWidgets>
-#include <QSqlRelationalTableModel>
+#include <QWidget>
+
 
 
 namespace Ui {
@@ -19,17 +18,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void createTableView();
 
 public slots:
     void addItemWindow();
 
 
 private:
-    void showError(const QSqlError &err);
-
     Ui::MainWindow *ui;
-    QSqlRelationalTableModel *model;
 
     int typeIdx;
 

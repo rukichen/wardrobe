@@ -1,7 +1,5 @@
-#include "AddItem.h"
 #include "ui_AddItem.h"
-
-
+#include "AddItem.h"
 
 AddItem::AddItem(QWidget *parent) :
     QDialog(parent),
@@ -24,12 +22,16 @@ QString AddItem::getName(){
 }
 
 QVariant AddItem::getType(){
-    return ui->comboBox->currentText();
+   return ui->comboBox->itemData(ui->comboBox->currentIndex());
+
 
 }
 
 void AddItem::addedItem()
 {
- //nur den Aufruf add das zu Methode in dataaccess
+    name = getName();
+    type = getType();
+    QString typetmp = type.toString();
+    addItem(name,typetmp);
 
 }

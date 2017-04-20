@@ -1,7 +1,7 @@
 //used https://github.com/open-source-parsers/jsoncpp#generating-amalgamated-source-and-header for json
 
-#include "MainWindow.h"
 #include "dataaccess.h"
+#include "MainWindow.h"
 #include <QApplication>
 #include <QWidget>
 #include <QMainWindow>

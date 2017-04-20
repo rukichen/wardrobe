@@ -2,9 +2,8 @@
 #define ADDITEM_H
 
 #include <QDialog>
-#include <QSqlRelationalTableModel>
-#include <QDataWidgetMapper>
 #include <QMessageBox>
+#include "dataaccess.h"
 
 
 namespace Ui {
@@ -22,16 +21,16 @@ public:
     QString getName();
     QVariant getType();
 
+
 private slots:
     void addedItem();
 
 
 private:
     Ui::AddItem *ui;
-    QSqlRelationalTableModel *model;
-    QDataWidgetMapper *mapper;
     QString name;
     QVariant type;
+    QString typetmp;
 };
 
 #endif // ADDITEM_H
