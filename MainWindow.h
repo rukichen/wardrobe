@@ -1,10 +1,9 @@
 #ifndef __MAINWINDOW_H
 #define __MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QWidget>
-
-
 
 namespace Ui {
 class MainWindow;
@@ -25,8 +24,6 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-
-    int typeIdx;
 
 };
 

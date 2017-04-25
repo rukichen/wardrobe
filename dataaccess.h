@@ -1,12 +1,14 @@
-#include <QDir>
+#pragma once
 
 #include <iostream>
 #include <fstream>
+#include <QJsonDocument>
+#include <QDebug>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QDir>
 
-#include <jsoncpp/json/json.h>
-#include <jsoncpp/json/writer.h>
-
-
+#include "AddItem.h"
 
 void Init(){
     QString path = "data";
@@ -43,27 +45,35 @@ void Init(){
     //
 }
 
-void addItem(QString name,QString type){
-    std::string newname = name.toStdString();
-    std::cout << type.toStdString() << std::endl;
+void read(){
+    QString val;
+    QFile file;
+    file.setFileName("data/data.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    val = file.readAll();
+    file.close();
+    qWarning() << val;
+    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject sett2 = d.object();
+    QJsonValue value = sett2.value(QString("appName"));
+    qWarning() << value;
+    QJsonObject item = value.toObject();
+    qWarning() << QObject::tr("QJsonObject of description: ") << item;
 
-    Json::Value root;   // will contains the root value after parsing.
-    Json::Reader reader;
-    Json::StyledStreamWriter writer;
-    std::ifstream test("data/data.json");
-    bool parsingSuccessful = reader.parse( test, root );
-    if ( !parsingSuccessful )
-    {
-        // report to the user the failure and their locations in the document.
-        std::cout  << "Failed to parse configuration: "<< reader.getFormattedErrorMessages();
-    }
-    std::cout << root["kimono"] << std::endl;
-    std::cout << root << std::endl;
-    root["kimono"] = newname;
-    test.close();
-    std::ofstream test1("data/data.json");
-    writer.write(test1,root);
-    std::cout << root << std::endl;
+    /* in case of string value get value and convert into string*/
+    qWarning() << QObject::tr("QJsonObject[appName] of description: ") << item["description"];
+    QJsonValue subobj = item["description"];
+    qWarning() << subobj.toString();
 
+    /* in case of array get array and convert into string*/
+    qWarning() << QObject::tr("QJsonObject[appName] of value: ") << item["imp"];
+    QJsonArray test = item["imp"].toArray();
+    qWarning() << test[1].toString();
 }
 
+void addNewItem(){
+ AddItem *add = new AddItem();
+ QString name = add->getName();
+ QString typetmp = (add->getType()).toString();
+
+}

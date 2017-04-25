@@ -1,10 +1,11 @@
 #ifndef ADDITEM_H
 #define ADDITEM_H
 
+#pragma once
+
 #include <QDialog>
 #include <QMessageBox>
-#include "dataaccess.h"
-
+#include <QVariant>
 
 namespace Ui {
 class AddItem;
@@ -21,16 +22,11 @@ public:
     QString getName();
     QVariant getType();
 
-
 private slots:
-    void addedItem();
 
 
 private:
     Ui::AddItem *ui;
-    QString name;
-    QVariant type;
-    QString typetmp;
 };
 
 #endif // ADDITEM_H

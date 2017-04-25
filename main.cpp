@@ -3,8 +3,6 @@
 #include "dataaccess.h"
 #include "MainWindow.h"
 #include <QApplication>
-#include <QWidget>
-#include <QMainWindow>
 
 int main(int argc, char *argv[])
 {
