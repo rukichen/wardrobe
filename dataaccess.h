@@ -76,4 +76,27 @@ void addNewItem(){
  QString name = add->getName();
  QString typetmp = (add->getType()).toString();
 
+QFile file ;
+file.setFileName("data/data.json");
+QString inputData;
+bool updateVal;
+if(file.open(QIODevice::ReadWrite | QIODevice::Text)){
+    inputData = file.readAll();
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(inputData.toUtf8());
+    QJsonObject jo = jsonDoc.object();
+    QJsonValue value = jo.value(QString());
+
+    QJsonObject obj;
+    QJsonArray itemArray;
+     QJsonObject newItem;
+    newItem["id"] = 1;
+    newItem["kimono"] = name;
+    newItem["type"] = typetmp;
+    itemArray.append(newItem);
+    obj["kimono"] = itemArray;
+
+    file.write(jsonDoc.toJson());
+    file.close();
+}
+
 }
