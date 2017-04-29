@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QVariant>
 
+#include "dataaccess.h"
+
 namespace Ui {
 class AddItem;
 }
@@ -22,9 +24,10 @@ public:
     QString getName();
     QVariant getType();
 
+
 private slots:
 
-
+    void input();
 private:
     Ui::AddItem *ui;
 };

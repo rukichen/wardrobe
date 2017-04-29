@@ -17,7 +17,8 @@ FORMS = \
 
 SOURCES += main.cpp \
     MainWindow.cpp \
-    AddItem.cpp
+    AddItem.cpp \
+    dataaccess.cpp
 
 HEADERS += \
     MainWindow.h \

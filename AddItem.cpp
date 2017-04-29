@@ -9,7 +9,7 @@ AddItem::AddItem(QWidget *parent) :
 {
     ui->setupUi(this);
 
-   // connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(addedItem()));
+    connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(input()));
     connect(ui->cancleButton,SIGNAL(clicked()), this, SLOT(close()));
 
  }
@@ -23,6 +23,14 @@ QString AddItem::getName(){
 }
 
 QVariant AddItem::getType(){
-   return ui->comboBox->itemData(ui->comboBox->currentIndex());
+   return ui->comboBox->itemText(ui->comboBox->currentIndex());
 }
 
+void AddItem::input(){
+    QString name = getName();
+    QString typetmp = (getType()).toString();
+    dataaccess *data = new dataaccess();
+
+    data->addNewItem(name, typetmp);
+    this->close();
+}
