@@ -26,5 +26,8 @@ HEADERS += \
     AddItem.h \
     dataaccess.h
 
+RESOURCES += \
+    resource.qrc
+
 
 

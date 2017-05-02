@@ -5,7 +5,8 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QStandardItemModel>
-#include <QTableView>
+#include <QListWidget>
+#include <QListWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -19,17 +20,20 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    QStringList load();
 
 public slots:
     void addItemWindow();
     void showItem();
-    void load(QStandardItemModel& model);
 
+
+
+private slots:
+    //void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;
-    QTableView view;
-    QStandardItemModel model;
+
 
 };
 

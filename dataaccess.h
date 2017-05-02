@@ -20,6 +20,7 @@ public:
 
     void Init();
     void read();
+    void show();
     void addNewItem(QString name, QString typetmp);
 };
 

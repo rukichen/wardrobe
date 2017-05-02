@@ -28,6 +28,8 @@ public:
 private slots:
 
     void input();
+
+
 private:
     Ui::AddItem *ui;
 };

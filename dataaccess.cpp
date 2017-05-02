@@ -31,48 +31,23 @@ void dataaccess::Init(){
     }else{    // use existing file
         appendFileToWorkWith.close();
     }
-    //datei einlesen
-
-    //für die Datein jeweils eine exsistenzabfrage
-    //
 }
 
 void dataaccess::read(){
-    QString val;
-    QFile file;
-    file.setFileName("data/data.txt");
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        qDebug()<<"Failed to open";
-        exit(1);
-    }
-
-    QTextStream file_text(&file);
-    QString json_string;
-    json_string = file_text.readAll();
-    //val = file.readAll();
+    //read file
+    QFile file ;
+    file.setFileName("data/data.txt"); //set pfad
+    file.open(QIODevice::ReadOnly | QIODevice::Text); //open file
+    QString val = file.readAll();
     file.close();
 
-    qWarning() << json_string;
-    QByteArray json_bytes = json_string.toLocal8Bit();
+    // parse to jsonDoc
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
+    //qWarning() << jsonDoc.isNull();
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(json_bytes);
-
-    if(json_doc.isNull()){
-        qDebug()<<"failed to crete json doc";
-        exit(2);
-    }
-    if(!json_doc.isObject()){
-        qDebug()<<"Json is not an object";
-        exit(3);
-    }
-    QJsonObject json_obj = json_doc.object();
-
-    if(json_obj.isEmpty()){
-    qDebug()<<"json is empty";
-    exit(4);
-    }
-
-    QVariantMap json_map = json_obj.toVariantMap();
+    QJsonObject jo = jsonDoc.object();
+    //get the array for kimono
+    QJsonArray array = jo.value("Kimono").toArray();
 }
 
 void dataaccess::addNewItem(QString name, QString typetmp)
