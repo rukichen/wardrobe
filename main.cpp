@@ -1,4 +1,4 @@
-//used https://github.com/open-source-parsers/jsoncpp#generating-amalgamated-source-and-header for json
+﻿//used https://github.com/open-source-parsers/jsoncpp#generating-amalgamated-source-and-header for json
 
 #include "dataaccess.h"
 #include "MainWindow.h"
@@ -10,8 +10,11 @@ int main(int argc, char *argv[])
     MainWindow w ;
 
     w.show();
+
     dataaccess *data = new dataaccess();
     data->Init();
+
     return a.exec();
 }
+
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,7 +15,8 @@ FORMS = \
     mainwindow \
     AddItem.ui
 
-SOURCES += main.cpp \
+SOURCES += \
+main.cpp \
     MainWindow.cpp \
     AddItem.cpp \
     dataaccess.cpp

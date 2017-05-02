@@ -1,4 +1,4 @@
-#include "dataaccess.h"
+﻿#include "dataaccess.h"
 dataaccess::dataaccess()
 {
 
@@ -17,7 +17,7 @@ void dataaccess::Init(){
         dir2.mkpath("images");
     }
     //CREATE JSON FILE
-    char filename[ ] = "data/data.json";
+    char filename[ ] = "data/data.txt";
     std::fstream appendFileToWorkWith;
 
     appendFileToWorkWith.open(filename, std::fstream::in | std::fstream::out | std::fstream::app);
@@ -40,7 +40,7 @@ void dataaccess::Init(){
 void dataaccess::read(){
     QString val;
     QFile file;
-    file.setFileName("data/data.json");
+    file.setFileName("data/data.txt");
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qDebug()<<"Failed to open";
         exit(1);
@@ -75,53 +75,62 @@ void dataaccess::read(){
     QVariantMap json_map = json_obj.toVariantMap();
 }
 
-void dataaccess::addNewItem(QString name, QString typetmp){
+void dataaccess::addNewItem(QString name, QString typetmp)
+{
+    //read file
+    QFile file ;
+    file.setFileName("data/data.txt"); //set pfad
+    file.open(QIODevice::ReadOnly | QIODevice::Text); //open file
+    QString val = file.readAll();
+    file.close();
 
-QFile file ;
-file.setFileName("data/data.json"); //set pfad
+    // parse to jsonDoc
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
+    //qWarning() << jsonDoc.isNull();
 
-file.open(QIODevice::ReadWrite | QIODevice::Text); //open file
-QString val = file.readAll(); //read file
+    QJsonObject jo = jsonDoc.object();
 
-QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
-QJsonObject jo = jsonDoc.object();
-QJsonArray array = jo.value(QString()).toArray();
+//get the array for kimono
+    QJsonArray array = jo.value("Kimono").toArray();
 
 //find highest id
+    QString id = "0";
+    int max = 0;
 
-QJsonValue value =jo.value("id");
-QJsonArray arr = value.toArray();
+    QList<QString> myIdList = QList<QString>();
 
-for( int i = 0, i)
+    if( jo.isEmpty()){
+        id = "10001";
+    }else{
+        foreach (const QJsonValue & value, array) {
+            QJsonObject obj = value.toObject();
+            QString inner_id = obj["id"].toString();
+            myIdList.append(inner_id);
+            int temp = inner_id.toInt();
+            if(max < temp){
+                max = temp;
+            }
+        }
+        max++;
+        id = QString::number(max);
+    }
 
- QJsonArray itemArray;
+    int place = myIdList.size();
+    qDebug() << myIdList;
+
     QJsonObject newItem;
-    newItem["id"] = 1;
+    newItem["id"] = id;
     newItem["kimono"] = name;
     newItem["type"] = typetmp;
-    itemArray.append(newItem);
-   // obj["kimono"] = itemArray;
-    array.append(itemArray);
 
-    QJsonDocument saveDoc(newItem);
+    array.insert(place,newItem);
+    jo.insert("Kimono",array);
+
+    QJsonDocument saveDoc(jo);
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
     file.write(saveDoc.toJson());
     file.close();
 
-    //Edit
-//    QJsonObject RootObject = JsonDocument.object();
-//    QJsonValueRef ArrayRef = RootObject.find("array").value();
-//    QJsonArray Array = ArrayRef.toArray();
-
-//    QJsonArray::iterator ArrayIterator = Array.begin();
-//    QJsonValueRef ElementOneValueRef = ArrayIterator[0];
-
-//    QJsonObject ElementOneObject = ElementOneValueRef.toObject();
-
-//    // Make modifications to ElementOneObject
-
-//    ElementOneValueRef = ElementOneObject;
-//    ArrayRef = Array;
-//    JsonDocument.setObject(RootObject);
-
-
 }
+
+

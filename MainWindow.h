@@ -1,9 +1,11 @@
-#ifndef __MAINWINDOW_H
+﻿#ifndef __MAINWINDOW_H
 #define __MAINWINDOW_H
 #pragma once
 
 #include <QMainWindow>
 #include <QWidget>
+#include <QStandardItemModel>
+#include <QTableView>
 
 namespace Ui {
 class MainWindow;
@@ -20,10 +22,14 @@ public:
 
 public slots:
     void addItemWindow();
+    void showItem();
+    void load(QStandardItemModel& model);
 
 
 private:
     Ui::MainWindow *ui;
+    QTableView view;
+    QStandardItemModel model;
 
 };
 
