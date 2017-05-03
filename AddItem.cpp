@@ -10,7 +10,7 @@ AddItem::AddItem(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(input()));
-    connect(ui->cancleButton,SIGNAL(clicked()), this, SLOT(close()));
+
 
  }
 
@@ -27,10 +27,17 @@ QVariant AddItem::getType(){
 }
 
 void AddItem::input(){
+
+}
+
+void AddItem::on_saveButton_clicked()
+{
     QString name = getName();
     QString typetmp = (getType()).toString();
     dataaccess *data = new dataaccess();
 
     data->addNewItem(name, typetmp);
     this->close();
+    MainWindow *main = new MainWindow();
+    main->load();
 }

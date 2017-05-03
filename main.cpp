@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 
     dataaccess *data = new dataaccess();
     data->Init();
+    w.load();
 
     return a.exec();
 }

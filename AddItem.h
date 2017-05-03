@@ -25,10 +25,13 @@ public:
     QVariant getType();
 
 
-private slots:
+public slots:
 
     void input();
 
+
+private slots:
+    void on_saveButton_clicked();
 
 private:
     Ui::AddItem *ui;

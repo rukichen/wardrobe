@@ -7,6 +7,8 @@
 #include <QStandardItemModel>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QListView>
+#include "dataaccess.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,7 +22,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    QStringList load();
+    void load();
+    QStandardItemModel *model;
 
 public slots:
     void addItemWindow();

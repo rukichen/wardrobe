@@ -11,17 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
 //button
    connect(ui->AddItem, SIGNAL(clicked()),this, SLOT(addItemWindow()));
 
-   QIcon icon (":/img/folder.png");
-   QStringList list = load();
-
-    ui->listWidget->setIconSize(QSize(100,100));
-   for(int i = 0; i < list.size(); i++){
-       QString name  = list[i];
-       QListWidgetItem *item = new QListWidgetItem(icon,name);
-       ui->listWidget->addItem(item);
-
-   }
-
 }
 
 MainWindow::~MainWindow()
@@ -41,32 +30,43 @@ void MainWindow::showItem(){
 
 
 }
-QStringList MainWindow::load(){
-    //read file
-    QFile file ;
-    file.setFileName("data/data.txt"); //set pfad
-    file.open(QIODevice::ReadOnly | QIODevice::Text); //open file
-    QString val = file.readAll();
-    file.close();
+void MainWindow::load(){
 
-    QStringList myList ;
+    model = new QStandardItemModel(this);
 
-    // parse to jsonDoc
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
-    qWarning() << jsonDoc.isNull();
+    QList<QStandardItem*> *items = new QList<QStandardItem*> ();
 
-    QJsonObject json = jsonDoc.object();
-    QJsonArray data = json.value("Kimono").toArray();
 
-    foreach (const QJsonValue & value, data) {
+    QString category = "Kimono";
+    QString file = "data";
+    dataaccess *reading = new dataaccess();
+    QJsonArray array = reading->read(file, category);
+
+    QList<QString> myList = QList<QString>();
+    foreach (const QJsonValue & value, array) {
         QJsonObject obj = value.toObject();
         QString name = obj["kimono"].toString();
         myList.append(name);
+;
 
     }
 
- return myList;
+    QIcon icon (":/img/folder.png");
 
+    for(int i = 0; i < myList.size(); i++){
+        QString name  = myList[i];
+        QListWidgetItem *item = new QListWidgetItem(icon,name);
+
+        QStandardItem * lItem = new QStandardItem (icon, name);
+        model->appendRow(lItem);
+
+        ui->listWidget->addItem(item);
+
+    }
+
+    ui->listView->setIconSize(QSize(100,100));
+    ui->listWidget->setIconSize(QSize(100,100));
+    ui->listView->setModel(model);
 }
 
 //void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)

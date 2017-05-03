@@ -33,10 +33,10 @@ void dataaccess::Init(){
     }
 }
 
-void dataaccess::read(){
+QJsonArray dataaccess::read(QString file_name, QString category){
     //read file
     QFile file ;
-    file.setFileName("data/data.txt"); //set pfad
+    file.setFileName("data/" + file_name + ".txt"); //set pfad
     file.open(QIODevice::ReadOnly | QIODevice::Text); //open file
     QString val = file.readAll();
     file.close();
@@ -47,19 +47,32 @@ void dataaccess::read(){
 
     QJsonObject jo = jsonDoc.object();
     //get the array for kimono
-    QJsonArray array = jo.value("Kimono").toArray();
+    QJsonArray array = jo.value(category).toArray();
+    return array;
 }
 
+QJsonArray dataaccess::find(QString file_name, QString id){
+
+}
+
+void dataaccess::edit(QString file_name, QString id){
+
+}
+
+//in this method the wanted file is read and the new item is put
+//at the end of the file with a new ID
 void dataaccess::addNewItem(QString name, QString typetmp)
 {
-    //read file
+//read file
     QFile file ;
-    file.setFileName("data/data.txt"); //set pfad
-    file.open(QIODevice::ReadOnly | QIODevice::Text); //open file
+//set pfad
+    file.setFileName("data/data.txt");
+//open file
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
     QString val = file.readAll();
     file.close();
 
-    // parse to jsonDoc
+// parse to jsonDoc
     QJsonDocument jsonDoc = QJsonDocument::fromJson(val.toUtf8());
     //qWarning() << jsonDoc.isNull();
 
@@ -100,11 +113,11 @@ void dataaccess::addNewItem(QString name, QString typetmp)
 
     array.insert(place,newItem);
     jo.insert("Kimono",array);
-
     QJsonDocument saveDoc(jo);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     file.write(saveDoc.toJson());
     file.close();
+
 
 }
 

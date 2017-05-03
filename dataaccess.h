@@ -8,7 +8,7 @@
 #include <QJsonArray>
 #include <QDir>
 #include <QVariantMap>
-
+#include "MainWindow.h"
 
 class dataaccess
 {
@@ -19,8 +19,9 @@ public:
     ~dataaccess();
 
     void Init();
-    void read();
-    void show();
+    QJsonArray read(QString file_name, QString category);
+    QJsonArray find(QString file_name, QString id);
+    void edit(QString file_name, QString id);
     void addNewItem(QString name, QString typetmp);
 };
 
